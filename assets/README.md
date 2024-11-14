@@ -42,8 +42,8 @@ O projeto EmpreGO é uma plataforma para auxiliar na busca e divulgação de opo
 ![CSS](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
 ![JAVASCRIPT](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 ![BOOTSTRAP](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
-![PYTHON]()
-![FLASK]()
+![PYTHON](https://img.shields.io/badge/Python-FFD43B?style=for-the-badge&logo=python&logoColor=blue)
+![FLASK](https://img.shields.io/badge/Flask-000000?style=for-the-badge&logo=flask&logoColor=white)
 
 ## Autores
 - Maria Julia Domingues Antunes - [GitHub](https://github.com/MDomantunes/Projeto-EmpreGO1.git) - maria.domantunes.senai@gmail.com
