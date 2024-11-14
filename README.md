@@ -1,7 +1,4 @@
-# Let's save the README content into a .md file
 
-readme_content = """
-![alt text](<assets/img/readme/Mrs. douglas class.jpg>)
 ### Curso Técnico de Desenvolvimento de Sistemas - Senai Itapeva
 # EmpreGO
 
