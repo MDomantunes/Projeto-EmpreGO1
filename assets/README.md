@@ -46,7 +46,7 @@ O projeto EmpreGO é uma plataforma para auxiliar na busca e divulgação de opo
 ![FLASK]()
 
 ## Autores
-- Maria Julia Domingues Antunes - [GitHub](https://github.com/MDomantunes) - maria.domantunes.senai@gmail.com
+- Maria Julia Domingues Antunes - [GitHub](https://github.com/MDomantunes/Projeto-EmpreGO1.git) - maria.domantunes.senai@gmail.com
 
 ## Licença
 Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para mais detalhes.
