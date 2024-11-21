@@ -7,45 +7,83 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <h1>Editar a  Vaga</h1>
+            <h1>Editar a Vaga</h1>
 
-            {% if msg_erro %}  <!-- Exibe mensagem de erro, se houver -->
+            {% if msg_erro %} <!-- Exibe mensagem de erro, se houver -->
                 <div class="alert alert-danger" role="alert">
                     {{ msg_erro }}
                 </div>
             {% endif %}
 
-            <form action="/editar_vaga/{{ vaga.id_vaga}}" method="post">
+            <form action="/editar_vaga/{{ vaga.id_vaga }}" method="post" class="needs-validation" novalidate>
+                {% csrf_token %}
                 <div class="mb-3">
                     <label for="titulo" class="form-label">Título da Vaga</label>
-                    <input type="text" class="form-control" id="titulo" name="titulo" value="{{ vaga.titulo}}" required>
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="titulo"
+                        name="titulo"
+                        value="{{ vaga.titulo }}"
+                        required
+                    />
+                    <div class="invalid-feedback">O título da vaga é obrigatório.</div>
                 </div>
                 <div class="mb-3">
                     <label for="descricao" class="form-label">Descrição da Vaga</label>
-                    <textarea class="form-control" id="descricao" name="descricao" rows="5" required>{{ vaga.descricao }}</textarea>
+                    <textarea
+                        class="form-control"
+                        id="descricao"
+                        name="descricao"
+                        rows="5"
+                        required
+                    >{{ vaga.descricao }}</textarea>
+                    <div class="invalid-feedback">A descrição da vaga é obrigatória.</div>
                 </div>
                 <div class="mb-3">
                     <label for="formato" class="form-label">Formato de Trabalho</label>
                     <select class="form-select" id="formato" name="formato" required>
-                        <option {% if vaga.formato == 'Presencial' %} selected {% endif %} value="Presencial">Presencial</option>
-                        <option {% if vaga.formato == 'Remoto' %} selected {% endif %}value="Remoto">Remoto</option>
-                        <option {% if vaga.formato == 'Híbrido' %} selected {% endif %}value="Híbrido">Híbrido</option>
+                        <option value="Presencial" {% if vaga.formato == 'Presencial' %} selected {% endif %}>
+                            Presencial
+                        </option>
+                        <option value="Remoto" {% if vaga.formato == 'Remoto' %} selected {% endif %}>
+                            Remoto
+                        </option>
+                        <option value="Híbrido" {% if vaga.formato == 'Híbrido' %} selected {% endif %}>
+                            Híbrido
+                        </option>
                     </select>
+                    <div class="invalid-feedback">Por favor, selecione um formato de trabalho.</div>
                 </div>
                 <div class="mb-3">
                     <label for="tipo" class="form-label">Tipo de Contrato</label>
                     <select class="form-select" id="tipo" name="tipo" required>
-                        <option {% if vaga.formato == 'CLT' %} selected {% endif %}value="CLT">CLT</option>
-                        <option {% if vaga.formato == 'PJ' %} selected {% endif %}value="PJ">PJ</option>
+                        <option value="CLT" {% if vaga.tipo == 'CLT' %} selected {% endif %}>CLT</option>
+                        <option value="PJ" {% if vaga.tipo == 'PJ' %} selected {% endif %}>PJ</option>
                     </select>
+                    <div class="invalid-feedback">Por favor, selecione o tipo de contrato.</div>
                 </div>
                 <div class="mb-3">
                     <label for="local" class="form-label">Local da Vaga (se aplicável)</label>
-                    <input type="text" class="form-control" id="local" name="local" value="{{ vaga.local}}">
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="local"
+                        name="local"
+                        value="{{ vaga.local }}"
+                    />
+                    <div class="invalid-feedback">Por favor, insira o local da vaga.</div>
                 </div>
                 <div class="mb-3">
                     <label for="salario" class="form-label">Salário (opcional)</label>
-                    <input type="text" class="form-control" id="salario" name="salario" value="{{ vaga.salario}}">
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="salario"
+                        name="salario"
+                        value="{{ vaga.salario }}"
+                    />
+                    <div class="invalid-feedback">Por favor, insira um salário válido.</div>
                 </div>
                 <div class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-primary">Salvar alterações</button>
@@ -56,3 +94,23 @@
 </div>
 
 {% endblock %}
+
+<script>
+  (() => {
+    'use strict';
+
+    // Seleciona todos os formulários com validação necessária
+    const forms = document.querySelectorAll('.needs-validation');
+
+    // Aplica a validação personalizada
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>

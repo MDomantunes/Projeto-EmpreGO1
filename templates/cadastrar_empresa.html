@@ -68,7 +68,7 @@
         </li>
       </ul>
       <hr />
-      <form action="/cadastrar_empresa" method="post" class="w-50 mx-auto">
+      <form action="/cadastrar_empresa" method="post" class="w-50 mx-auto" class="needs-validation" novalidate>
         <div class="mb-3">
           <label for="nome_empresa" class="form-label"
             >Nome Fantasia da Empresa</label
@@ -80,6 +80,11 @@
             required
           />
         </div>
+        <div class="valid-feedback">
+          Informação válida
+      </div>
+      <div class="invalid-feedback">
+          Preencha o campo.</div>
 
         <div class="mb-3">
           <label for="cnpj" class="form-label">CNPJ</label>
@@ -92,6 +97,11 @@
             required
           />
         </div>
+        <div class="valid-feedback">
+          Informação válida
+      </div>
+      <div class="invalid-feedback">
+          Preencha o campo.</div>
 
         <div class="mb-3">
           <label for="telefone" class="form-label">Telefone de Contato</label>
@@ -104,6 +114,11 @@
             required
           />
         </div>
+        <div class="valid-feedback">
+          Informação válida
+      </div>
+      <div class="invalid-feedback">
+          Preencha o campo.</div>
 
         <h2>Informações para acesso da plataforma</h2>
 
@@ -111,11 +126,21 @@
           <label for="email" class="form-label">E-mail (LOGIN)</label>
           <input type="email" name="email" class="form-control" required />
         </div>
+        <div class="valid-feedback">
+          Informação válida
+      </div>
+      <div class="invalid-feedback">
+          Preencha o campo.</div>
 
         <div class="mb-3">
           <label for="senha" class="form-label">Senha (LOGIN)</label>
           <input type="password" name="senha" class="form-control" required />
         </div>
+        <div class="valid-feedback">
+          Informação válida
+      </div>
+      <div class="invalid-feedback">
+          Preencha o campo.</div>
 
         <button type="submit" class="btn btn-primary">Cadastrar Empresa</button>
         {% if msg_erro %}
@@ -129,5 +154,27 @@
 
     <!-- Scripts do Bootstrap -->
     <script src="../static/bootstrap/js/bootstrap.js"></script>
+
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (() => {
+    'use strict'
+  
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+  
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault()
+          event.stopPropagation()
+        }
+  
+        form.classList.add('was-validated')
+      }, false)
+    })
+  })()
+  </script>
   </body>
 </html>
