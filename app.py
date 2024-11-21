@@ -471,6 +471,48 @@ def logout():
     session.clear()
     return redirect('/')
 
+@app.route('/candidato_vaga', methods=['POST','GET'])
+def candidato_vaga():
+    #Verifica se não tem sessão ativa
+    if not session:
+        return redirect('/login')
+    #Verifica se o adm está tentando acessar indevidamente
+    if 'adm' in session:
+        return redirect('/adm')
+    
+    if request.method == 'GET':
+        return render_template('candidato_vga.html')
+    
+    if request.method == 'POST':
+        titulo = request.form['titulo']
+        descricao = request.form['descricao']
+        formato = request.form['formato']
+        tipo = request.form['tipo']
+        local = ''
+        local = request.form['local']
+        salario = ''
+        salario = request.form['salario']
+        id_empresa = session['id_empresa']
+
+        if not titulo or not descricao or not formato or not tipo:
+            return render_template('candidato_vaga.html', msg_erro="Os campos obrigatório precisam estar preenchidos!")
+        
+        try:
+            conexao, cursor = conectar_db()
+            comandoSQL = '''
+            INSERT INTO Vaga (titulo, descricao, formato, tipo, local, salario, id_empresa)
+            VALUES (%s, %s, %s, %s, %s, %s, %s)
+            '''
+            cursor.execute(comandoSQL, (titulo, descricao, formato, tipo, local, salario, id_empresa))
+            conexao.commit()
+            return redirect('/empresa')
+        except Error as erro:
+            return f"ERRO! Erro de Banco de Dados: {erro}"
+        except Exception as erro:
+            return f"ERRO! Outros erros: {erro}"
+        finally:
+            encerrar_db(cursor, conexao)
+
 #Final do código
 if __name__ == '__main__':
     app.run(debug=True) 
