@@ -481,10 +481,10 @@ def candidato_vaga():
         return redirect('/adm')
     
     if request.method == 'GET':
-        return render_template('candidato_vga.html')
+        return render_template('candidato_vaga.html')
     
     if request.method == 'POST':
-        titulo = request.form['titulo']
+        nome = request.form['nome']
         descricao = request.form['descricao']
         formato = request.form['formato']
         tipo = request.form['tipo']
@@ -492,7 +492,7 @@ def candidato_vaga():
         local = request.form['local']
         salario = ''
         salario = request.form['salario']
-        id_empresa = session['id_empresa']
+        id_candidato = session['id_candidato']
 
         if not titulo or not descricao or not formato or not tipo:
             return render_template('candidato_vaga.html', msg_erro="Os campos obrigatório precisam estar preenchidos!")
@@ -500,12 +500,12 @@ def candidato_vaga():
         try:
             conexao, cursor = conectar_db()
             comandoSQL = '''
-            INSERT INTO Vaga (titulo, descricao, formato, tipo, local, salario, id_empresa)
+            INSERT INTO Vaga (titulo, descricao, formato, tipo, local, salario, id_candidato)
             VALUES (%s, %s, %s, %s, %s, %s, %s)
             '''
             cursor.execute(comandoSQL, (titulo, descricao, formato, tipo, local, salario, id_empresa))
             conexao.commit()
-            return redirect('/empresa')
+            return redirect('/candidato')
         except Error as erro:
             return f"ERRO! Erro de Banco de Dados: {erro}"
         except Exception as erro:
