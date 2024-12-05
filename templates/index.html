@@ -1,13 +1,11 @@
 {% extends "base.html" %} {% block title %}EmpreGO! - Encontre sua vaga ideal{%
 endblock %} {% block content %}
 
+{%include 'carrosel.html' %}
+
 <div class="container">
   <div class="row">
     <div class="col-12">
-      <h1>Encontre sua vaga ideal!</h1>
-      <p>
-        Explore as vagas mais recentes e dê o próximo passo na sua carreira.
-      </p>
       {% if login == 'empresa' %}
       <a href="/cadastrar_vaga" class="btn btn-success">Cadastrar Vaga</a>
       {% endif %}

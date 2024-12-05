@@ -1,9 +1,12 @@
 <header>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
+      <!-- Logo -->
       <a class="navbar-brand" href="/">
         <img src="../static/logo/logo.png" alt="Logo" style="height: 40px" />
       </a>
+
+      <!-- Botão de menu para dispositivos menores -->
       <button
         class="navbar-toggler"
         type="button"
@@ -15,27 +18,50 @@
       >
         <span class="navbar-toggler-icon"></span>
       </button>
+
+      <!-- Links de navegação e barra de pesquisa -->
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto">
           <li class="nav-item">
             <a class="nav-link active" aria-current="page" href="/">Home</a>
           </li>
-          
+
           {% if not session %}
-          <ul><a class="btn btn-primary" href="/login">Login</a></ul>
+          <li class="nav-item">
+            <a class="btn btn-dark" href="/login">Login</a>
+          </li>
           {% endif %}
           {% if 'adm' in session %}
-          <ul><a class="nav-link" href="/adm">Painel do Admin</a></ul>
-          <ul><a class="nav-link" href="/logout">Sair</a></ul>
+          <li class="nav-item">
+            <a class="nav-link" href="/adm">Painel do Admin</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Sair</a>
+          </li>
           {% endif %}
           {% if 'id_empresa' in session %}
-          <ul class="nav-item"><a class="nav-link" href="/empresa">Painel da Empresa</a></ul>
-          <ul><a class="nav-link" href="/logout">Sair</a></ul>
+          <li class="nav-item">
+            <a class="nav-link" href="/empresa">Painel da Empresa</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Sair</a>
+          </li>
           {% endif %}
-        </div>
-
         </ul>
-        {%if login %}
+
+        <!-- Barra de pesquisa -->
+        <form class="d-flex" role="search" onsubmit="searchOnPage(event)">
+          <input
+            class="form-control me-2"
+            type="search"
+            id="searchInput"
+            placeholder="Buscar"
+            aria-label="Buscar"
+          />
+          <button class="btn btn-custom" type="submit">Buscar</button>
+        </form>
+
+        {% if login %}
         <ul class="navbar-nav">
           <li class="nav-item">
             <a class="nav-link" href="/logout">Sair</a>
@@ -46,3 +72,68 @@
     </div>
   </nav>
 </header>
+
+<style>
+  /* Define um estilo personalizado para o botão */
+  .btn-custom {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+    transition: background-color 0.3s ease, color 0.3s ease; /* Suaviza a transição */
+  }
+
+  /* Estado ativo (clicado) */
+  .btn-custom:active {
+    background-color: black !important;
+    color: white !important;
+    border-color: black !important;
+  }
+
+  /* Estado hover */
+  .btn-custom:hover {
+    background-color: black;
+    color: white;
+  }
+
+  /* Destaque para o texto encontrado */
+  .highlight {
+    background-color: darkgray;
+    font-weight: bold;
+    color: black;
+  }
+</style>
+
+<script>
+  function searchOnPage(event) {
+    event.preventDefault(); // Impede o recarregamento da página
+    const searchText = document.getElementById('searchInput').value.toLowerCase();
+
+    // Remove marcas de destaque anteriores
+    document.querySelectorAll('.highlight').forEach(el => {
+      el.outerHTML = el.innerText;
+    });
+
+    if (searchText) {
+      // Procura o texto na página
+      const bodyContent = document.body.innerHTML;
+      const regex = new RegExp(searchText, 'gi');
+      const matches = bodyContent.match(regex);
+
+      if (matches) {
+        // Substitui o texto encontrado por uma versão destacada
+        document.body.innerHTML = bodyContent.replace(
+          regex,
+          match => `<span class="highlight">${match}</span>`
+        );
+
+        // Rola até o primeiro resultado encontrado
+        document.querySelector('.highlight').scrollIntoView({ behavior: 'smooth' });
+        alert(`"${searchText}" foi encontrado ${matches.length} vez(es) na página.`);
+      } else {
+        alert(`"${searchText}" não foi encontrado na página.`);
+      }
+    } else {
+      alert('Por favor, insira um termo para buscar.');
+    }
+  }
+</script>

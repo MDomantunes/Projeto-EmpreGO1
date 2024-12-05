@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, session
+from flask import Flask, render_template, request, redirect, session, send_from_directory
 from mysql.connector import Error #biblioteca para bd mysql
 from config import * #arquivo config.py
 from db_functions import * #funções de banco de dados
@@ -298,6 +298,7 @@ def empresa():
         comandoSQL = 'SELECT * FROM vaga WHERE id_empresa = %s AND status = "inativa" ORDER BY id_vaga DESC'
         cursor.execute(comandoSQL, (id_empresa,))
         vagas_inativas = cursor.fetchall()
+        
 
         return render_template('empresa.html', nome_empresa=nome_empresa, vagas_ativas=vagas_ativas, vagas_inativas=vagas_inativas)         
     except Error as erro:
@@ -443,6 +444,9 @@ def excluir_vaga(id_vaga):
 
     try:
         conexao, cursor = conectar_db()
+        comandoSQL = 'DELETE FROM candidato WHERE id_vaga = %s'
+        cursor.execute(comandoSQL, (id_vaga,))
+        conexao.commit()
         comandoSQL = 'DELETE FROM vaga WHERE id_vaga = %s AND status = "inativa"'
         cursor.execute(comandoSQL, (id_vaga,))
         conexao.commit()
@@ -500,7 +504,7 @@ def candidatar_vaga(id_vaga):
             nome_arquivo = f"idVaga_{id_vaga}_{curriculo.filename}"
             curriculo.save(os.path.join(app.config['UPLOAD_FOLDER'],nome_arquivo))
             conexao, cursor = conectar_db()
-            comandoSQL = "INSERT INTO candidato (nome_candidato, email, telefone, curriculo, id_vaga) VALUES (%s,%s,%s,%s,%s)"
+            comandoSQL = "INSERT INTO candidato (nome_candidato, email, telefone, curiculo, id_vaga) VALUES (%s,%s,%s,%s,%s)"
             cursor.execute(comandoSQL, (nome_candidato, email, telefone, nome_arquivo, id_vaga))
             conexao.commit()
             return redirect('/')
@@ -545,6 +549,22 @@ def logout():
     session.clear()
     return redirect('/')
 
+@app.route('/candidatos/<int:id_vaga>')
+def ver_candidatos(id_vaga):
+    try:
+        conexao, cursor = conectar_db()
+        comandoSQL = '''
+        SELECT * FROM candidato WHERE id_vaga = %s
+        '''
+        cursor.execute(comandoSQL, (id_vaga,))
+        candidatos = cursor.fetchall()
+        return render_template('candidatos.html', candidatos=candidatos)
+    except mysql.connector.Error as erro:
+        return f"Erro de banco de Dados: {erro}"
+    except Exception as erro:
+        return f"Erro de back-end: {erro}"
+    finally:
+        encerrar_db(conexao, cursor)
 
 #FINAL DO CÓDIGO
 if __name__=='__main__':

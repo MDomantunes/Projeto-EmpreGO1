@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block title %}EmpreGO! - Painel da Empresa{%
+    endblock %} {% block content %}
+
+{% for candidato in candidatos %}
+    <p>{{ candidato.nome_candidado }} -
+        {{ candidato.email}} - 
+        {{ candidato.telefone}} - 
+        <a href="/download/{{ candidato.curiculo }}">Baixar currículo</a>
+    </p>
+{% else %}
+    <p>Não há candidatos para essa vaga!</p>
+{% endfor %}
+
+{% endblock %}
