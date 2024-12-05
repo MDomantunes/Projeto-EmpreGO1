@@ -494,7 +494,7 @@ def candidatar_vaga(id_vaga):
     if request.method == 'POST':
         nome_candidato = request.form['nome_candidato']
         email = request.form['email']
-        telefone = request.form['telefone']
+        telefone = limpar_input(request.form['telefone'])
         curriculo = request.files['curriculo']
 
         if not nome_candidato or not email or not telefone or not curriculo:
